@@ -9,7 +9,7 @@ body {
   background-image: linear-gradient(120deg, #f6d365, #fda085);
   background-repeat: no-repeat;
   background-size: cover;
-  color: black;
+  color: white;
   font-family: "Poppins", sans-serif;
   min-height: 100vh; /* 100% of the viewport height  */
 }
