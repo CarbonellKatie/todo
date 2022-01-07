@@ -58,7 +58,6 @@ function addTodo(event){
 
 function deleteCheck(event){
     const item = event.target;
-    console.log(item);
 
     //If we are clicking the delete button, remove the parent element (the todo element)
     if(item.classList.contains('delete-btn')){
@@ -66,6 +65,7 @@ function deleteCheck(event){
 
         //add the falling animation when deleting elements
         todo.classList.add('fall');
+        removeLocalTodos(todo);
 
         //wait until the animation is finished before deleting element 
         todo.addEventListener('transitionend', () =>
@@ -81,7 +81,6 @@ function deleteCheck(event){
 
 function filterTodo(event){
     const todos = todoList.childNodes;
-    console.log(event.target.value);
     todos.forEach(function(todo){
         if(todo.tagName == 'DIV'){
 
@@ -98,7 +97,6 @@ function filterTodo(event){
                 }
                 break;
             case "completed":
-                console.log("we got to the completed case")
                     if(!todo.classList.contains('completed')){
                         todo.style.display = "none";
                     }
@@ -130,7 +128,6 @@ function saveLocalTodos(todo){
 
 function getTodos(){
     //todos will be an array of Strings containing the name of the todo (i.e: wash the car, walk the dog)
-    let todos;
     if(localStorage.getItem('todos') === null){
         todos = [];
     }
@@ -166,4 +163,22 @@ function getTodos(){
 
     });
 
+    }
+
+    //remove a todo from local storage
+    function removeLocalTodos(todo){
+        let todos;
+        //this condition should never happen since we are clicking the delete button on an existing todo
+        if(localStorage.getItem('todos') == null){
+            todos = [];
+        }
+        else{
+            todos = JSON.parse(localStorage.getItem("todos"));
+        }
+        //getting back the div, want to get into the li
+        const todoValue = todo.children[0].innerText;
+        //we want to remove one element from this index
+        todos.splice(todos.indexOf(todoValue), 1);
+        //set the todos array in local storage equal to the modified todos array
+        localStorage.setItem('todos', JSON.stringify(todos));
     }
